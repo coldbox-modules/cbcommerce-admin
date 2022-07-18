@@ -1,0 +1,12 @@
+{
+    "name":"cbcommerce-admin-test-harness",
+    "web":{
+        "rewrites":{
+            "enable":"true"
+        },
+        "aliases":{
+            "/moduleroot/cbcommerce-admin/includes":"../includes"
+        }
+    },
+    "openBrowser":"false"
+}

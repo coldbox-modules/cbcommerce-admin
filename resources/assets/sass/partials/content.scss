@@ -1,0 +1,29 @@
+[role="main"] {
+  padding-top: 48px;
+  /* Space for fixed navbar */
+}
+
+.picture-preview {
+	z-index: 10000 !important;
+}
+
+.slideout-panel-overall {
+	z-index: 10002 !important;
+}
+
+.b-toast.confirm-toast {
+	position: absolute;
+    max-width: none;
+	width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+    top: 0;
+    right: 0px;
+    left: auto;
+	.toast{
+		max-width: none;
+		.toast-body{
+			min-height: 200px;
+		}
+	}
+}
