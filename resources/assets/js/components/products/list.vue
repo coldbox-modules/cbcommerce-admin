@@ -12,29 +12,37 @@
         <b-row>
 
             <b-col md="3">
-                <b-row>
-                    <b-input-group class="col col-12">
+                <b-row style="padding-top:20px">
+                    <b-input-group size="sm" class="col col-12">
                         <b-form-input v-model="searchParams.search" @change="refreshList" :placeholder="$t( 'type_search')" />
                         <b-input-group-append>
                             <b-btn :disabled="!searchParams.search" @click="searchParams.search = null;refreshList( $event )">{{ $t( 'clear' ) }}</b-btn>
                         </b-input-group-append>
                     </b-input-group>
                 </b-row>
-                <b-row>
+
+				<b-row style="padding-top:20px" v-if="flattenedCategories">
                     <b-form-group class="col col-12">
-                        <legend>{{ $t( 'product_model_search' ) }}</legend>
+                        <label><strong>{{ $t( 'categories_filter' ) }}</strong></label>
+						<b-select v-model="searchParams.category"  @change="refreshList" :options="flattenedCategories"></b-select>
+                    </b-form-group>
+                </b-row>
+
+                <b-row style="padding-top:20px">
+                    <b-form-group class="col col-12">
+                        <label><strong>{{ $t( 'product_model_search' ) }}</strong></label>
                         <b-form-input v-model="searchParams.modelNumber" @change="refreshList" :placeholder="$t( 'products_model_search' )" />
                     </b-form-group>
                 </b-row>
-                <b-row>
-                    <b-form-group class="col col-12">
-                        <legend>{{ $t( 'product_externalId_search' ) }}</legend>
+                <b-row style="padding-top:20px">
+                    <b-form-group size="sm" class="col col-12">
+                        <label><strong>{{ $t( 'product_externalId_search' ) }}</strong></label>
                         <b-form-input v-model="searchParams.externalIdSearch" @change="refreshList" :placeholder="$t( 'products_externalId_search' )" />
                     </b-form-group>
                 </b-row>
-                <b-row>
-                    <b-form-group class="col col-12">
-                        <legend>{{ $t( 'condition' ) }}</legend>
+                <b-row style="padding-top:20px">
+                    <b-form-group size="sm" class="col col-12">
+                        <label><strong>{{ $t( 'condition' ) }}</strong></label>
                         <b-form-radio-group
                             v-model="searchParams.condition"
                             :options="conditionOptions"
@@ -98,7 +106,7 @@
                 </b-table>
 
                 <table-pagination
-                    v-if="!isLoading && productsListArray.length"
+                    v-if="!isLoading && productsListArray.length && totalRows > perPage"
                     :totalRows="totalRows"
                     :perPage="perPage"
                     :currentPage="currentPage">
@@ -126,8 +134,10 @@ export default {
                 page : 1,
                 maxrows : 25,
                 condition: 'New',
-                activeSKUsOnly : false
+                activeSKUsOnly : false,
+				category : null
             },
+			flattenedCategories : null,
             conditionOptions : [ { text : this.$t( 'new' ), value : "New" }, {text : this.$t( 'used' ), value : "Used" } ],
             productsFields: [
                 {
@@ -152,16 +162,31 @@ export default {
         }
     },
 
-    created() {},
+    created() {
+	},
 
-    mounted() {},
+    mounted() {
+		if( !this.flattenedCategories ){
+			this.apiInstance.get.categories.list( { "maxrows" : "all" } )
+				.then(XHR => {
+					let flattened = this.$options.filters.denormalize( XHR.data ).map( item => { return { value : item.id, text : item.name } } );
+					flattened.unshift( { value : null, text: this.$t( 'All' ) } );
+					this.$set( this, "flattenedCategories", flattened );
+				})
+				.catch(err => {
+					console.error(err);
+				})
+		}
+	},
 
     computed: {
 
     	...mapGetters([
+			"apiInstance",
     		"productsList",
     		"productsListArray",
-    		"activeCategoryId"
+    		"activeCategoryId",
+			"categoriesFlattenedArray"
     	])
 
     },
