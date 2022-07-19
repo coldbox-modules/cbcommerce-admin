@@ -40,7 +40,7 @@
     "vue-img-loader": "^1.0.0",
     "vue-js-grid": "^1.0.1",
     "vue-loader": "^15.8.3",
-    "vue-nestable": "^2.3.1",
+    "vue-nestable": "^2.6.0",
     "vue-picture-input": "^2.1.6",
     "vue-rate-it": "^2.1.0",
     "vue-router": "^3.1.3",

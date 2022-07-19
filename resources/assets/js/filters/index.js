@@ -34,6 +34,23 @@ const denormalize = function denormalize(res) {
   }
 }
 
+const normalize = function( aoids, ident="id" ){
+    if( !Array.isArray( aoids ) ){
+        return aoids;
+    } else if ( aoids.some( function( elem ){ return ! elem[ ident ]; } ) ){
+        console.error( "Not all items in array have attribute '" + ident + "'." );
+        return undefined;
+    } else {
+        return aoids.reduce( function( acc, item ){
+            acc.resultsMap[ item[ ident ] ] = item;
+            if ( acc.results.indexOf( item[ ident ] ) == -1 ){
+                acc.results.push( item[ ident ] );
+            }
+            return acc;
+        }, { "results" : [], "resultsMap" : {} } );
+    }
+}
+
 const dateToText = (date) => {
   return (date) ? moment(date).format('MMM Do, YYYY h:mm:ss a') : '';
 }
@@ -64,6 +81,7 @@ export const createFilters = Vue => {
   Vue.filter("centsToDollars", centsToDollars);
   Vue.filter("floatToDollars", floatToDollars);
   Vue.filter("denormalize", denormalize);
+  Vue.filter("normalize", normalize);
   Vue.filter("dateToText", dateToText);
   Vue.filter("itemStatusToText", itemStatusToText);
   Vue.filter("isImage", isImage );

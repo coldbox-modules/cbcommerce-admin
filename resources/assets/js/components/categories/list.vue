@@ -14,8 +14,9 @@
 			<generic-loader v-if="!categoriesListArray" :message="$t( 'categories_loading' )"></generic-loader>
 			<vue-nestable
 				v-else
-				v-model="categoriesListArray"
-				v-on:input="reviseHierarchy"
+				:value="categoriesListArray"
+				@input="reviseHierarchy"
+				@change="saveCategories"
 			>
 				<vue-nestable-handle
 				class="nestable-category-item"
@@ -39,18 +40,6 @@
 								v-if="item.children && item.children.length"
 							>
 								<i class="fa fa-caret-down fa-2x"></i>
-							</a>
-
-
-							<a
-								:href="`/store/category/${item.id}`"
-								target="blank"
-								class="btn btn-link btn-sm float-right"
-								v-if="item.children && item.children.length"
-								v-b-tooltip.hover
-								:title="$( 'category_site' )"
-							>
-								<i class="fa fa-globe"></i>
 							</a>
 
 							<a class="btn btn-link btn-sm float-right" @click="$bvToast.show( 'confirm-delete-' + item.id )">
@@ -145,16 +134,50 @@ export default {
 				if( cat.FK_parent !== parentId || cat.displayOrder !== displayOrder  ){
 					cat.FK_parent = parentId;
 					cat.displayOrder = displayOrder;
-					self.saveCategory(
-						{
-							"id" : cat.id,
-							"displayOrder" : displayOrder,
-							"FK_parent" : parentId
-
-						}
-					);
 				}
 				self.reviseChildHierarcies( cat );
+			} );
+			this.$store.commit( "setCategories", this.$options.filters.normalize( topLevels ) );
+		},
+		saveCategories( value, options ){
+			var self = this;
+			let topLevels = options.items;
+			topLevels.forEach( ( cat, index ) =>{
+				let displayOrder = index + 1;
+				self.saveCategory(
+					{
+						"id" : cat.id,
+						"displayOrder" : displayOrder,
+						"FK_parent" : ""
+
+					}
+				);
+				if( cat.children.length ){
+					cat.children.forEach( ( child, j ) => {
+						let displayOrder = j + 1;
+						self.saveCategory(
+							{
+								"id" : child.id,
+								"displayOrder" : displayOrder,
+								"FK_parent" : cat.id
+
+							}
+						);
+						if( child.children.length ){
+							child.children.forEach( ( tertiary, k ) => {
+								let displayOrder = k + 1;
+								self.saveCategory(
+									{
+										"id" : tertiary.id,
+										"displayOrder" : displayOrder,
+										"FK_parent" : child.id
+
+									}
+								);
+							} );
+						}
+					} );
+				}
 			} );
 		},
 		reviseChildHierarcies( parent ){
@@ -166,14 +189,6 @@ export default {
 				if( cat.FK_parent !== parentId || cat.displayOrder !== displayOrder  ){
 					cat.FK_parent = parentId;
 					cat.displayOrder = displayOrder;
-					self.saveCategory(
-						{
-							"id" : cat.id,
-							"displayOrder" : displayOrder,
-							"FK_parent" : parentId
-
-						}
-					 );
 				}
 				self.reviseChildHierarcies( cat )
 			} );
