@@ -19,7 +19,7 @@
 
         // set assetBag if not present in prc
         if( !structKeyExists( prc, "assetBag" ) ){
-            prc[ "assetBag" ] = wirebox.getInstance( "AssetBag@coldbox-asset-bag" );
+            prc[ "assetBag" ] = getWirebox().getInstance( "AssetBag@coldbox-asset-bag" );
         }
 
 		param prc.globalData = {};

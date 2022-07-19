@@ -4,14 +4,17 @@
     "slug":"tester",
     "private":true,
     "description":"",
-    "dependencies":{},
+    "dependencies":{
+        "testbox":"^4.5.0+5"
+    },
     "devDependencies":{
         "coldbox":"be",
         "route-visualizer":"^1.4.0"
     },
     "installPaths":{
         "coldbox":"coldbox/",
-        "route-visualizer":"modules/route-visualizer/"
+        "route-visualizer":"modules/route-visualizer/",
+        "testbox":"testbox/"
     },
     "testbox":{
         "runner":"http://localhost:61651/tests/runner.cfm"
