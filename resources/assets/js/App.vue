@@ -11,7 +11,7 @@
 
 				<sidebar v-if="authUser"></sidebar>
 
-				<main role="main" class="col-lg-9 ml-sm-auto col-xl-10 px-4">
+				<main role="main" :class="mainContainerClass">
 
 					<router-view></router-view>
 
@@ -39,7 +39,10 @@ export default {
 		...mapGetters([ "apiInstance" ] ),
 		...mapState({
 			authUser(state){ return state.globalData.authUser }
-		})
+		}),
+		mainContainerClass(){
+			return this.authUser ? 'col-lg-9 ml-sm-auto col-xl-10 px-4' : 'container'
+		}
 	},
 	created(){
 		this.apiInstance.get.settings()

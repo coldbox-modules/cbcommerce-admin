@@ -4,7 +4,7 @@
     <div class="card-image">
       <img
         :src="image.variations.thumbnail"
-        class="img-responsive selectable-image" height="200" width="200"
+        class="img-fluid selectable-image" height="200" width="200"
         @click="showImageDetailPanel" />
 
     </div>

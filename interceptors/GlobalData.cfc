@@ -24,6 +24,7 @@
 
 		param prc.globalData = {};
 		prc.globalData[ "fwLocale" ] = getFwLocale();
+		prc.globalData[ "moduleRoot" ] = event.getModuleRoot( "cbcommerce-admin" );
 
 		var exposedSettings = [
 			"baseAPIHref"

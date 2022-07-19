@@ -4,7 +4,7 @@
 
 		<router-link
 			to="/"
-			class="navbar-brand col-md-3 col-lg-2 mr-0">CBCommerce Admin</router-link>
+			class="navbar-brand col-md-3 col-lg-2 mr-0"><img :src="`${moduleRoot}/includes/static/cbcommerce-logo.png`" style="max-height:25px" alt="CBCommerce Admin"/></router-link>
 
 		<input
 			v-if="authUser"
@@ -28,6 +28,7 @@ export default {
 	name    : "TopSearch",
 	computed : {
 		...mapState({
+			moduleRoot : state => state.globalData.moduleRoot,
 			authUser : state => state.globalData.authUser
 		})
 	}

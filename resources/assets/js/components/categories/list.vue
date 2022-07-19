@@ -36,7 +36,7 @@
 							<a
 								href="javascript:;"
 								@click="toggleExpand"
-								class="btn btn-default btn-sm float-right"
+								class="btn btn-secondary btn-sm float-right"
 								v-if="item.children && item.children.length"
 							>
 								<i class="fa fa-caret-down fa-2x"></i>
@@ -60,7 +60,7 @@
 
 							<router-link
 							:to="{ name: 'categoryForm', params: { id: item.id } }"
-							class="btn btn-default btn-sm float-right">
+							class="btn btn-secondary btn-sm float-right">
 								<i class="fa fa-pencil"></i>
 							</router-link>
 						</div>
