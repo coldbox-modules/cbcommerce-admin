@@ -39,7 +39,15 @@ routerInstance.beforeEach((to, from, next) => {
 	if( to.name == "login" ) return next();
 	api().get.authentication.check().then( xhr => {
 		if( !storeInstance.state.globalData.authUser ){
-			api().get.authentication.token().then( xhr => { Vue.set( storeInstance.state.globalData, "authUser", VueJwtDecode.decode( xhr.data[ "@token" ] ) ); next(); } );
+			api().get.authentication.token().then( xhr => {
+				let authUser = Object.freeze( VueJwtDecode.decode( xhr.data[ "@token" ] ) );
+				if( !authUser.scope.trim().length ){
+					next({ name: 'login' });
+				} else {
+					Vue.set( storeInstance.state.globalData, "authUser", authUser );
+					next();
+				}
+			} );
 		} else {
 			next();
 		}

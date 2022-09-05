@@ -39,7 +39,10 @@ export const createStore = (Vue, Vuex) => {
         }
 	};
 	const getters = {
-		apiInstance : () => api()
+		apiInstance : () => api(),
+		authUser: () => state.globalData.authUser,
+		hasPermission: ( state ) => ( thePermission ) => state.globalData.authUser ? state.globalData.authUser.scope.split( " " ).some( perm => thePermission.split( "," ).indexOf( perm ) > -1 ) : false,
+		isInRole: ( state ) => ( theRole ) => state.globalData.authUser ? state.globalData.authUser.roles.some( role => theRole.split( "," ).indexOf( role.name ) > -1 ) : false
 	};
 	const debug =
     process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "test";

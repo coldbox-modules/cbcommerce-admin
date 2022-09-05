@@ -15,7 +15,7 @@
 
 		<ul class="navbar-nav px-3">
 			<li v-if="authUser" class="nav-item text-nowrap">
-				<a class="nav-link" href="##">Sign out</a>
+				<a class="nav-link" @click="logout">Sign out</a>
 			</li>
 		</ul>
 	</nav>
@@ -31,6 +31,11 @@ export default {
 			moduleRoot : state => state.globalData.moduleRoot,
 			authUser : state => state.globalData.authUser
 		})
+	},
+	methods:{
+		logout(){
+			this.$store.dispatch( "logout" );
+		}
 	}
 };
 </script>
