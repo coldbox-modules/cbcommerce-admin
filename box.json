@@ -45,7 +45,8 @@
         "harness:install":"install && cd test-harness && install"
     },
     "ignore":[
-        "test-harness"
+        "test-harness",
+        "*/.md"
     ],
     "cfmigrations":{
         "connectionInfo":{
