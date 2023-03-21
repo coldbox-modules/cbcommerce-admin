@@ -8,7 +8,7 @@
         "testbox":"^4.5.0+5"
     },
     "devDependencies":{
-        "coldbox":"be",
+        "coldbox":"^6",
         "route-visualizer":"^1.4.0"
     },
     "installPaths":{

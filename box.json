@@ -15,31 +15,16 @@
     "description":"Admin module for the cbCommerce e-commerce platform",
     "type":"modules",
     "dependencies":{
-        "cfmigrations":"^3.0.6",
-        "quick":"^4.2.4",
-        "cbsecurity":"^2.15.0",
-        "BCrypt":"^3.0.1",
         "coldbox-asset-bag":"^1.0.3",
-        "stripecfml":"^1.1.5",
-        "cbi18n":"^2.2.0"
+        "cbi18n":"^3.2.0"
     },
-    "devDependencies":{
-        "mockdatacfc":"^3.0.0+7"
-    },
+    "devDependencies":{},
     "installPaths":{
-        "quick":"modules/quick/",
         "coldbox-asset-bag":"modules/coldbox-asset-bag/",
-        "cfmigrations":"modules/cfmigrations/",
-        "cbsecurity":"modules/cbsecurity/",
-        "cbvalidation":"modules/cbvalidation/",
-        "stripecfml":"modules/stripecfml/",
-        "cbjavaloader":"modules/cbjavaloader/",
-        "mockdatacfc":"modules/mockdatacfc/",
-        "BCrypt":"modules/BCrypt/",
         "cbi18n":"modules/cbi18n/"
     },
     "scripts":{
-        "harness:install":"install && cd test-harness && install"
+        "harness:install":"install --force && cd test-harness && install --force"
     },
     "ignore":[
         "test-harness",
